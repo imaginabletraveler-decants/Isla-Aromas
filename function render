@@ -430,10 +430,17 @@
                     </button>
                 `).join('');
 
+                const imageHTML = item.image 
+                    ? `<div class="w-full h-48 mb-4 overflow-hidden rounded-lg border border-isla-taupe bg-white flex items-center justify-center">
+                         <img src="${item.image}" alt="${item.name}" class="h-full w-full object-cover">
+                       </div>`
+                    : '';
+
                 const card = document.createElement('div');
                 card.className = 'bg-white p-6 border border-isla-taupe flex flex-col justify-between shadow-sm hover:shadow-md transition duration-300';
                 card.innerHTML = `
                     <div>
+                        ${imageHTML}
                         <div class="flex justify-between items-start mb-3">
                             <span class="text-[10px] uppercase tracking-widest font-bold text-isla-accent">${item.house}</span>
                             <span class="text-xs text-isla-gold flex items-center font-bold"><i data-lucide="star" class="w-3 h-3 fill-current mr-1"></i>${item.rating}</span>
