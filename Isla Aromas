@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Isla Aromas | Luxury Fragrance Decants</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/1.16.0/umd/lucide.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        isla: {
+                            sand: '#F9F8F6',
+                            taupe: '#EBE6DE',
+                            dark: '#121212',
+                            gold: '#C5A880',
+                            accent: '#7A756D'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F9F8F6; color: #121212; }
+        .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-isla-sand text-isla-dark antialiased selection:bg-isla-gold selection:text-white">
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-isla-dark text-white px-6 py-3 rounded-full shadow-2xl flex items-center space-x-3 text-sm tracking-wide">
+        <i data-lucide="check-circle" class="w-4 h-4 text-isla-gold"></i>
+        <span id="toast-message">Added to your bag</span>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 bg-isla-sand/95 backdrop-blur-md border-b border-isla-taupe/60 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Mobile Menu Button -->
+            <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-isla-dark hover:text-isla-gold">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+
+            <!-- Brand Logo from User Design -->
+            <a href="#" class="flex items-center space-x-3">
+                <!-- SVG Recreation of Uploaded Logo Emblem -->
+                <svg class="w-9 h-9" viewBox="0 0 100 100" fill="currentColor">
+                    <!-- Droplet / Mountain peaks -->
+                    <path d="M50 5 L68 35 C78 52 75 72 50 85 C25 72 22 52 32 35 Z" fill="#121212" opacity="0.1"/>
+                    <path d="M50 12 L63 36 C70 48 68 63 50 74 C32 63 30 48 37 36 Z" fill="#121212"/>
+                    <polygon points="50,15 59,32 50,45 41,32" fill="#F9F8F6"/>
+                    <path d="M20 48 C30 42 40 55 50 50 C60 45 70 42 80 50 C72 62 28 62 20 48 Z" fill="#121212"/>
+                </svg>
+                <div class="flex flex-col">
+                    <span class="font-bold text-lg sm:text-xl tracking-[0.18em] uppercase leading-tight">Isla Aromas</span>
+                    <span class="text-[9px] tracking-[0.25em] uppercase font-semibold text-isla-accent">Decant Fragrances</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center space-x-8 text-xs uppercase tracking-[0.15em] font-medium">
+                <a href="#shop" class="hover:text-isla-gold transition">All Decants</a>
+                <a href="#brands" class="hover:text-isla-gold transition">Designer & Niche</a>
+                <a href="#samples" class="hover:text-isla-gold transition">Discovery Sets</a>
+                <a href="#faq" class="hover:text-isla-gold transition">FAQ</a>
+            </nav>
+
+            <!-- Actions (Search, Cart) -->
+            <div class="flex items-center space-x-3">
+                <button onclick="openSearchModal()" class="p-2 hover:text-isla-gold transition" title="Search">
+                    <i data-lucide="search" class="w-5 h-5"></i>
+                </button>
+                <button onclick="toggleCart()" class="p-2 hover:text-isla-gold transition relative" title="Shopping Cart">
+                    <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                    <span id="cart-badge" class="absolute top-1 right-1 bg-isla-gold text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center scale-0 transition-transform">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Drawer -->
+    <div id="mobile-menu" class="fixed inset-0 z-50 bg-isla-dark/40 backdrop-blur-sm hidden transition-opacity">
+        <div class="bg-isla-sand w-4/5 max-w-sm h-full p-6 shadow-2xl flex flex-col justify-between transform -translate-x-full transition-transform duration-300" id="mobile-menu-panel">
+            <div>
+                <div class="flex justify-between items-center mb-8 border-b border-isla-taupe pb-4">
+                    <span class="font-bold tracking-widest text-sm uppercase">Isla Aromas Decants</span>
+                    <button onclick="toggleMobileMenu()" class="p-2"><i data-lucide="x" class="w-6 h-6"></i></button>
+                </div>
+                <div class="flex flex-col space-y-6 text-sm uppercase tracking-wider font-medium">
+                    <a href="#shop" onclick="toggleMobileMenu()" class="hover:text-isla-gold">All Decants</a>
+                    <a href="#brands" onclick="toggleMobileMenu()" class="hover:text-isla-gold">Designer & Niche</a>
+                    <a href="#samples" onclick="toggleMobileMenu()" class="hover:text-isla-gold">Discovery Sets</a>
+                    <a href="#faq" onclick="toggleMobileMenu()" class="hover:text-isla-gold">FAQ</a>
+                </div>
+            </div>
+            <div class="text-[11px] text-isla-accent tracking-widest uppercase border-t border-isla-taupe pt-4">
+                100% Authentic Designer & Niche Decants
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden py-16 md:py-24 border-b border-isla-taupe/50 bg-gradient-to-b from-isla-taupe/20 to-transparent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6 fade-in">
+                <div class="inline-flex items-center space-x-2 text-xs uppercase tracking-[0.2em] bg-isla-taupe/60 px-3.5 py-1.5 rounded-full font-semibold">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-isla-gold"></i>
+                    <span>Authentic Luxury Decants</span>
+                </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.15]">
+                    Try before you invest. <br/><span class="font-normal italic text-isla-accent">Wear luxury every day.</span>
+                </h1>
+                <p class="text-isla-accent text-base sm:text-lg max-w-md font-light leading-relaxed">
+                    Experience world-renowned niche and designer fragrances in pristine 2ml, 5ml, and 10ml glass atomizers. 100% authentic juices hand-decanted to order.
+                </p>
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 pt-2">
+                    <a href="#shop" class="bg-isla-dark text-white px-8 py-4 uppercase text-xs tracking-[0.2em] font-bold text-center hover:bg-isla-gold transition-colors duration-300">
+                        Browse Decants
+                    </a>
+                    <a href="#brands" class="border border-isla-dark/30 px-8 py-4 uppercase text-xs tracking-[0.2em] font-bold text-center hover:border-isla-dark transition-colors duration-300">
+                        View Houses
+                    </a>
+                </div>
+            </div>
+            <div class="relative flex justify-center">
+                <div class="w-full max-w-md aspect-square bg-white border border-isla-taupe shadow-xl rounded-2xl flex flex-col items-center justify-center p-8 relative overflow-hidden">
+                    <div class="absolute top-4 right-4 bg-isla-gold/10 text-isla-gold text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
+                        Best Seller
+                    </div>
+                    <!-- Sample Atomizer Graphic -->
+                    <div class="w-20 h-44 bg-gradient-to-b from-isla-taupe/40 to-isla-taupe/80 rounded-t-full rounded-b-lg border border-isla-taupe shadow-inner flex flex-col items-center justify-between p-3 my-4">
+                        <div class="w-6 h-6 bg-isla-dark rounded-xs"></div>
+                        <div class="text-center">
+                            <span class="text-[7px] tracking-[0.2em] uppercase font-bold block text-isla-dark">ISLA</span>
+                            <span class="text-[9px] font-bold block">5ml Decant</span>
+                        </div>
+                        <div class="w-8 h-1 bg-isla-gold rounded-full"></div>
+                    </div>
+                    <div class="text-center space-y-1">
+                        <h3 class="font-bold text-lg">Baccarat Rouge 540</h3>
+                        <p class="text-xs text-isla-accent">Maison Francis Kurkdjian</p>
+                        <p class="text-xs font-bold text-isla-gold pt-1">Starting from $14.99</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Badges -->
+    <div class="border-b border-isla-taupe/50 py-6 bg-white/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div class="space-y-1">
+                <i data-lucide="shield-check" class="w-5 h-5 mx-auto text-isla-gold mb-1"></i>
+                <h4 class="text-xs uppercase tracking-widest font-bold">100% Authentic</h4>
+                <p class="text-[11px] text-isla-accent">Sourced from authorized retailers</p>
+            </div>
+            <div class="space-y-1">
+                <i data-lucide="droplets" class="w-5 h-5 mx-auto text-isla-gold mb-1"></i>
+                <h4 class="text-xs uppercase tracking-widest font-bold">Glass Atomizers</h4>
+                <p class="text-[11px] text-isla-accent">Leak-proof, fine-mist sprayers</p>
+            </div>
+            <div class="space-y-1">
+                <i data-lucide="package" class="w-5 h-5 mx-auto text-isla-gold mb-1"></i>
+                <h4 class="text-xs uppercase tracking-widest font-bold">Freshly Decanted</h4>
+                <p class="text-[11px] text-isla-accent">Poured right before shipping</p>
+            </div>
+            <div class="space-y-1">
+                <i data-lucide="truck" class="w-5 h-5 mx-auto text-isla-gold mb-1"></i>
+                <h4 class="text-xs uppercase tracking-widest font-bold">Fast Dispatch</h4>
+                <p class="text-[11px] text-isla-accent">Ships securely within 24 hours</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Showcase (Decants Catalog) -->
+    <section id="shop" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+            <div>
+                <span class="text-xs uppercase tracking-[0.2em] text-isla-accent font-bold block mb-2">Curated Decant Library</span>
+                <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">Explore Fragrances</h2>
+            </div>
+            <!-- Category Filter Tabs -->
+            <div class="flex flex-wrap gap-2 mt-6 md:mt-0 text-xs tracking-widest uppercase font-semibold">
+                <button onclick="filterDecants('all')" id="filter-all" class="px-4 py-2.5 bg-isla-dark text-white transition filter-btn">All Fragrances</button>
+                <button onclick="filterDecants('niche')" id="filter-niche" class="px-4 py-2.5 bg-transparent border border-isla-taupe hover:border-isla-dark transition filter-btn">Niche & Luxury</button>
+                <button onclick="filterDecants('designer')" id="filter-designer" class="px-4 py-2.5 bg-transparent border border-isla-taupe hover:border-isla-dark transition filter-btn">Designer Favorites</button>
+            </div>
+        </div>
+
+        <!-- Decants Grid -->
+        <div id="decant-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Dynamically populated via JS -->
+        </div>
+    </section>
+
+    <!-- Discovery Sets Banner -->
+    <section id="samples" class="py-20 bg-isla-dark text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6">
+                <span class="text-xs uppercase tracking-[0.2em] text-isla-gold font-bold">Bespoke Flights</span>
+                <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">Curated Discovery Sets</h2>
+                <p class="text-isla-taupe text-sm leading-relaxed">
+                    Not sure where to start? Choose our curated themed sets—from "Oud & Amber Masterpieces" to "Clean Summer Freshies"—containing 5 × 2ml atomizers in a luxury presentation box.
+                </p>
+                <ul class="space-y-3 text-xs tracking-wide text-isla-taupe">
+                    <li class="flex items-center"><i data-lucide="check" class="w-4 h-4 text-isla-gold mr-2"></i> 5 Hand-selected 2ml decants</li>
+                    <li class="flex items-center"><i data-lucide="check" class="w-4 h-4 text-isla-gold mr-2"></i> Includes $10 store credit voucher</li>
+                    <li class="flex items-center"><i data-lucide="check" class="w-4 h-4 text-isla-gold mr-2"></i> Premium gift-ready packaging</li>
+                </ul>
+                <button onclick="addDiscoverySetToCart()" class="bg-isla-gold text-isla-dark uppercase text-xs tracking-[0.2em] font-bold px-8 py-4 hover:bg-white transition">
+                    Order Discovery Set — $39.99
+                </button>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-white/10 p-6 border border-white/10 text-center space-y-2 rounded-xl">
+                    <span class="text-xs uppercase text-isla-gold font-bold tracking-widest">Flight I</span>
+                    <h4 class="font-bold text-lg">The Oud & Leather Edit</h4>
+                    <p class="text-xs text-isla-taup/80">Rich, dark, and commanding projection.</p>
+                </div>
+                <div class="bg-white/10 p-6 border border-white/10 text-center space-y-2 rounded-xl">
+                    <span class="text-xs uppercase text-isla-gold font-bold tracking-widest">Flight II</span>
+                    <h4 class="font-bold text-lg">Clean & Musky Skin</h4>
+                    <p class="text-xs text-isla-taup/80">Effortless daily second-skin scents.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 space-y-2">
+            <span class="text-xs uppercase tracking-[0.2em] text-isla-accent font-bold">Frequently Asked</span>
+            <h2 class="text-3xl font-bold">Everything About Our Decants</h2>
+        </div>
+        <div class="space-y-4">
+            <div class="bg-white p-6 border border-isla-taupe rounded-lg shadow-sm">
+                <h3 class="font-bold text-base mb-2">What is a fragrance decant?</h3>
+                <p class="text-xs text-isla-accent leading-relaxed">A decant is a genuine, authentic fragrance transferred from the original designer bottle into a sterile, high-grade glass atomizer sprayer (2ml, 5ml, or 10ml) so you can test or wear it without purchasing an expensive full bottle.</p>
+            </div>
+            <div class="bg-white p-6 border border-isla-taupe rounded-lg shadow-sm">
+                <h3 class="font-bold text-base mb-2">Are your fragrances 100% authentic?</h3>
+                <p class="text-xs text-isla-accent leading-relaxed">Yes, absolutely. We purchase all full-size bottles directly from authorized luxury department stores and verified boutique distributors. We never sell clones, dupes, or diluted juices.</p>
+            </div>
+            <div class="bg-white p-6 border border-isla-taupe rounded-lg shadow-sm">
+                <h3 class="font-bold text-base mb-2">How many sprays are in each decant size?</h3>
+                <p class="text-xs text-isla-accent leading-relaxed">A 2ml sample yields approximately 30-35 sprays; a 5ml travel atomizer yields about 75-80 sprays; and a 10ml deluxe atomizer yields roughly 150+ sprays.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-isla-dark text-isla-taupe border-t border-white/10 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10">
+            <div class="space-y-3">
+                <div class="flex items-center space-x-2 text-white">
+                    <svg class="w-7 h-7" viewBox="0 0 100 100" fill="currentColor">
+                        <path d="M50 12 L63 36 C70 48 68 63 50 74 C32 63 30 48 37 36 Z" fill="#C5A880"/>
+                    </svg>
+                    <span class="font-bold tracking-widest uppercase text-sm">Isla Aromas</span>
+                </div>
+                <p class="text-xs text-isla-taupe/70 leading-relaxed">Your trusted destination for authentic niche and designer fragrance decants.</p>
+            </div>
+            <div>
+                <h4 class="text-xs uppercase tracking-[0.2em] text-white font-bold mb-4">Quick Links</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="#shop" class="hover:text-white transition">All Decants</a></li>
+                    <li><a href="#samples" class="hover:text-white transition">Discovery Sets</a></li>
+                    <li><a href="#faq" class="hover:text-white transition">FAQ & Policies</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xs uppercase tracking-[0.2em] text-white font-bold mb-4">Decant Sizes</h4>
+                <ul class="space-y-2 text-xs text-isla-taupe/70">
+                    <li>2ml Sample Glass Vial (~35 Sprays)</li>
+                    <li>5ml Pocket Travel Atomizer (~75 Sprays)</li>
+                    <li>10ml Deluxe Atomizer (~150 Sprays)</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xs uppercase tracking-[0.2em] text-white font-bold mb-4">Secure Shopping</h4>
+                <p class="text-xs text-isla-taupe/70 leading-relaxed">Secure payment processing with fast global shipping.</p>
+                <div class="flex space-x-4 mt-4 text-white">
+                    <a href="#" class="hover:text-isla-gold transition"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+                    <a href="#" class="hover:text-isla-gold transition"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between text-[11px] text-isla-taupe/50">
+            <p>&copy; 2026 Isla Aromas Decant Fragrances. All rights reserved.</p>
+            <div class="flex space-x-6 mt-4 sm:mt-0">
+                <a href="#" class="hover:text-white">Privacy Policy</a>
+                <a href="#" class="hover:text-white">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Slide-Over Shopping Cart Drawer -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 bg-isla-dark/50 backdrop-blur-sm hidden transition-opacity">
+        <div class="absolute inset-y-0 right-0 max-w-md w-full bg-isla-sand shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300" id="cart-panel">
+            <div class="p-6 border-b border-isla-taupe flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="shopping-bag" class="w-5 h-5 text-isla-gold"></i>
+                    <h3 class="font-bold text-base uppercase tracking-wider">Your Bag (<span id="cart-count">0</span>)</h3>
+                </div>
+                <button onclick="toggleCart()" class="p-2 hover:text-isla-gold"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            
+            <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4">
+                <!-- Cart items populated via JS -->
+            </div>
+
+            <div class="p-6 border-t border-isla-taupe bg-white/60 space-y-4">
+                <div class="flex justify-between text-xs tracking-widest uppercase font-bold">
+                    <span>Subtotal</span>
+                    <span id="cart-subtotal" class="text-sm">$0.00</span>
+                </div>
+                <p class="text-[11px] text-isla-accent">Secure checkout with guaranteed authenticity.</p>
+                <button onclick="checkout()" class="w-full bg-isla-dark text-white uppercase text-xs tracking-[0.2em] font-bold py-4 hover:bg-isla-gold transition">
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Modal -->
+    <div id="search-modal" class="fixed inset-0 z-50 bg-isla-dark/60 backdrop-blur-md hidden items-start justify-center pt-24 p-4">
+        <div class="bg-isla-sand max-w-xl w-full p-6 shadow-2xl relative border border-isla-taupe fade-in">
+            <div class="flex items-center border-b border-isla-dark pb-3">
+                <i data-lucide="search" class="w-5 h-5 text-isla-accent mr-3"></i>
+                <input type="text" id="search-input" oninput="handleSearch(this.value)" placeholder="Search by brand, perfume name, or notes..." class="bg-transparent w-full focus:outline-none text-sm placeholder-isla-accent">
+                <button onclick="closeSearchModal()" class="p-1 hover:text-isla-gold ml-2"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div id="search-results" class="mt-4 max-h-60 overflow-y-auto space-y-2">
+                <!-- Dynamic search results -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script>
+        // Decants Database with multiple size options
+        const decants = [
+            {
+                id: 1,
+                name: "Baccarat Rouge 540 Extrait",
+                house: "Maison Francis Kurkdjian",
+                category: "niche",
+                description: "A luminous and majestic aura with notes of Grandiflorum jasmine, saffron, bitter almond, cedar wood, and ambergris.",
+                prices: { "2ml": 14.99, "5ml": 32.99, "10ml": 59.99 },
+                rating: 5.0
+            },
+            {
+                id: 2,
+                name: "Aventus",
+                house: "Creed",
+                category: "niche",
+                description: "The legendary fragrance celebrating strength, power, and success with provocative pineapple, birch, and smoky ambergris.",
+                prices: { "2ml": 12.99, "5ml": 28.99, "10ml": 52.99 },
+                rating: 4.9
+            },
+            {
+                id: 3,
+                name: "Layton",
+                house: "Parfums de Marly",
+                category: "niche",
+                description: "An addictive oriental floral fragrance with an intense olfactory signature driven by vanilla, precious woods, and apple.",
+                prices: { "2ml": 11.99, "5ml": 26.99, "10ml": 48.99 },
+                rating: 4.9
+            },
+            {
+                id: 4,
+                name: "Lost Cherry",
+                house: "Tom Ford",
+                category: "niche",
+                description: "A full-bodied journey into the once-forbidden; a contrasting scent that reveals a tempting dichotomy of playful candy-like gleam.",
+                prices: { "2ml": 13.99, "5ml": 30.99, "10ml": 56.99 },
+                rating: 4.8
+            },
+            {
+                id: 5,
+                name: "Sauvage Elixir",
+                house: "Dior",
+                category: "designer",
+                description: "An extraordinarily concentrated fragrance steeped in Sauvage's iconic freshness with an intoxicating heart of spices and lavender.",
+                prices: { "2ml": 7.99, "5ml": 16.99, "10ml": 29.99 },
+                rating: 4.8
+            },
+            {
+                id: 6,
+                name: "Bleu de Chanel Parfum",
+                house: "Chanel",
+                category: "designer",
+                description: "An aromatic, intensely masculine fragrance with a majestic opening and a deep, luxurious sandalwood trail.",
+                prices: { "2ml": 8.99, "5ml": 18.99, "10ml": 34.99 },
+                rating: 4.9
+            }
+        ];
+
+        let cart = [];
+        let currentFilter = 'all';
+
+        // Initialize Lucide icons & render grid
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            renderDecants(decants);
+        });
+
+        // Render decants to grid with size selector
+        function renderDecants(items) {
+            const grid = document.getElementById('decant-grid');
+            grid.innerHTML = '';
+            
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'bg-white p-6 border border-isla-taupe flex flex-col justify-between shadow-sm hover:shadow-md transition duration-300';
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-[10px] uppercase tracking-widest font-bold text-isla-accent">${item.house}</span>
+                            <span class="text-xs text-isla-gold flex items-center font-bold"><i data-lucide="star" class="w-3 h-3 fill-current mr-1"></i>${item.rating}</span>
+                        </div>
+                        <h3 class="font-bold text-xl mb-1">${item.name}</h3>
+                        <p class="text-xs text-isla-accent line-clamp-2 mb-4 leading-relaxed">${item.description}</p>
+                    </div>
+                    <div class="space-y-4 pt-4 border-t border-isla-taupe/40">
+                        <!-- Size Selector -->
+                        <div class="grid grid-cols-3 gap-1.5" id="sizes-${item.id}">
+                            <button onclick="selectSize(${item.id}, '2ml')" id="btn-${item.id}-2ml" class="py-1.5 text-[11px] font-bold uppercase tracking-wider border border-isla-dark bg-isla-dark text-white transition size-btn-${item.id}">2ml</button>
+                            <button onclick="selectSize(${item.id}, '5ml')" id="btn-${item.id}-5ml" class="py-1.5 text-[11px] font-bold uppercase tracking-wider border border-isla-taupe text-isla-dark hover:border-isla-dark transition size-btn-${item.id}">5ml</button>
+                            <button onclick="selectSize(${item.id}, '10ml')" id="btn-${item.id}-10ml" class="py-1.5 text-[11px] font-bold uppercase tracking-wider border border-isla-taupe text-isla-dark hover:border-isla-dark transition size-btn-${item.id}">10ml</button>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span id="price-${item.id}" class="font-bold text-lg">$${item.prices['2ml'].toFixed(2)}</span>
+                            <button onclick="addDecantToCart(${item.id})" class="bg-isla-dark text-white text-xs uppercase tracking-widest font-bold px-4 py-2.5 hover:bg-isla-gold transition">
+                                Add to Bag
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        // Active selected size state per product
+        const selectedSizes = {};
+
+        function selectSize(productId, size) {
+            selectedSizes[productId] = size;
+            const item = decants.find(d => d.id === productId);
+            
+            // Update button styles
+            document.querySelectorAll(`.size-btn-${productId}`).forEach(btn => {
+                btn.classList.remove('bg-isla-dark', 'text-white', 'border-isla-dark');
+                btn.classList.add('border-isla-taupe', 'text-isla-dark');
+            });
+            const activeBtn = document.getElementById(`btn-${productId}-${size}`);
+            activeBtn.classList.remove('border-isla-taupe', 'text-isla-dark');
+            activeBtn.classList.add('bg-isla-dark', 'text-white', 'border-isla-dark');
+
+            // Update price display
+            document.getElementById(`price-${productId}`).innerText = `$${item.prices[size].toFixed(2)}`;
+        }
+
+        // Filter decants
+        function filterDecants(category) {
+            currentFilter = category;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-isla-dark', 'text-white');
+                btn.classList.add('bg-transparent', 'border', 'border-isla-taupe');
+            });
+            const activeBtn = document.getElementById(`filter-${category}`);
+            activeBtn.classList.remove('bg-transparent', 'border', 'border-isla-taupe');
+            activeBtn.classList.add('bg-isla-dark', 'text-white');
+
+            if (category === 'all') {
+                renderDecants(decants);
+            } else {
+                const filtered = decants.filter(p => p.category === category);
+                renderDecants(filtered);
+            }
+        }
+
+        // Cart Management
+        function toggleCart() {
+            const drawer = document.getElementById('cart-drawer');
+            const panel = document.getElementById('cart-panel');
+            if (drawer.classList.contains('hidden')) {
+                drawer.classList.remove('hidden');
+                setTimeout(() => panel.classList.remove('translate-x-full'), 10);
+                renderCartItems();
+            } else {
+                panel.classList.add('translate-x-full');
+                setTimeout(() => drawer.classList.add('hidden'), 300);
+            }
+        }
+
+        function addDecantToCart(productId) {
+            const item = decants.find(p => p.id === productId);
+            const size = selectedSizes[productId] || '2ml';
+            const price = item.prices[size];
+
+            const cartKey = `${productId}-${size}`;
+            const existing = cart.find(c => c.cartKey === cartKey);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    cartKey,
+                    id: productId,
+                    name: item.name,
+                    house: item.house,
+                    size,
+                    price,
+                    quantity: 1
+                });
+            }
+            updateCartBadge();
+            showToast(`Added ${item.name} (${size}) to your bag`);
+            renderCartItems();
+        }
+
+        function addDiscoverySetToCart() {
+            cart.push({
+                cartKey: 'discovery-set',
+                id: 999,
+                name: 'Curated Discovery Flight Set',
+                house: 'Isla Aromas',
+                size: '5 × 2ml',
+                price: 39.99,
+                quantity: 1
+            });
+            updateCartBadge();
+            showToast('Added Discovery Flight Set to your bag');
+            renderCartItems();
+            toggleCart();
+        }
+
+        function updateCartQuantity(cartKey, delta) {
+            const item = cart.find(i => i.cartKey === cartKey);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(i => i.cartKey !== cartKey);
+                }
+            }
+            updateCartBadge();
+            renderCartItems();
+        }
+
+        function updateCartBadge() {
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cart-badge');
+            document.getElementById('cart-count').innerText = totalCount;
+            if (totalCount > 0) {
+                badge.innerText = totalCount;
+                badge.classList.remove('scale-0');
+            } else {
+                badge.classList.add('scale-0');
+            }
+        }
+
+        function renderCartItems() {
+            const container = document.getElementById('cart-items-container');
+            const subtotalEl = document.getElementById('cart-subtotal');
+            container.innerHTML = '';
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16 space-y-3">
+                        <i data-lucide="shopping-bag" class="w-10 h-10 mx-auto text-isla-accent/40"></i>
+                        <p class="text-xs uppercase tracking-widest text-isla-accent font-bold">Your bag is currently empty</p>
+                    </div>
+                `;
+                subtotalEl.innerText = '$0.00';
+                lucide.createIcons();
+                return;
+            }
+
+            let subtotal = 0;
+            cart.forEach(item => {
+                subtotal += item.price * item.quantity;
+                const el = document.createElement('div');
+                el.className = 'flex items-center justify-between bg-white p-4 border border-isla-taupe/40';
+                el.innerHTML = `
+                    <div class="space-y-0.5">
+                        <span class="text-[9px] uppercase tracking-wider text-isla-accent font-bold">${item.house}</span>
+                        <h4 class="font-bold text-sm">${item.name}</h4>
+                        <p class="text-xs text-isla-accent">Size: ${item.size} • $${item.price.toFixed(2)}</p>
+                    </div>
+                    <div class="flex items-center border border-isla-taupe">
+                        <button onclick="updateCartQuantity('${item.cartKey}', -1)" class="px-2.5 py-1 text-xs hover:bg-isla-sand font-bold">-</button>
+                        <span class="px-2 text-xs font-bold">${item.quantity}</span>
+                        <button onclick="updateCartQuantity('${item.cartKey}', 1)" class="px-2.5 py-1 text-xs hover:bg-isla-sand font-bold">+</button>
+                    </div>
+                `;
+                container.appendChild(el);
+            });
+            subtotalEl.innerText = `$${subtotal.toFixed(2)}`;
+            lucide.createIcons();
+        }
+
+        function checkout() {
+            if (cart.length === 0) return;
+            showToast('Redirecting to secure encrypted checkout...');
+            setTimeout(() => {
+                cart = [];
+                updateCartBadge();
+                toggleCart();
+                showToast('Order placed successfully! Thank you for choosing Isla Aromas.');
+            }, 1500);
+        }
+
+        // Search Modal
+        function openSearchModal() {
+            const modal = document.getElementById('search-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.getElementById('search-input').focus();
+        }
+
+        function closeSearchModal() {
+            const modal = document.getElementById('search-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        function handleSearch(query) {
+            const resultsContainer = document.getElementById('search-results');
+            resultsContainer.innerHTML = '';
+            if (!query.trim()) return;
+
+            const q = query.toLowerCase();
+            const matched = decants.filter(p => 
+                p.name.toLowerCase().includes(q) || 
+                p.house.toLowerCase().includes(q) ||
+                p.description.toLowerCase().includes(q)
+            );
+
+            if (matched.length === 0) {
+                resultsContainer.innerHTML = `<p class="text-xs text-isla-accent p-2">No decants found matching "${query}"</p>`;
+                return;
+            }
+
+            matched.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'p-3 bg-white hover:bg-isla-taupe/20 cursor-pointer flex justify-between items-center transition';
+                el.innerHTML = `
+                    <div>
+                        <span class="text-[9px] uppercase tracking-wider text-isla-accent font-bold">${item.house}</span>
+                        <h4 class="font-bold text-sm">${item.name}</h4>
+                    </div>
+                    <span class="font-bold text-xs">From $${item.prices['2ml'].toFixed(2)}</span>
+                `;
+                el.onclick = () => {
+                    closeSearchModal();
+                    addDecantToCart(item.id);
+                    toggleCart();
+                };
+                resultsContainer.appendChild(el);
+            });
+        }
+
+        // Navigation Menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const panel = document.getElementById('mobile-menu-panel');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                setTimeout(() => panel.classList.remove('-translate-x-full'), 10);
+            } else {
+                panel.classList.add('-translate-x-full');
+                setTimeout(() => menu.classList.add('hidden'), 300);
+            }
+        }
+
+        // Toast Notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
