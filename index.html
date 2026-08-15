@@ -188,6 +188,11 @@
                 <button onclick="filterDecants('designer')" id="filter-designer" class="px-4 py-2.5 bg-transparent border border-isla-taupe hover:border-isla-dark transition filter-btn">Designer Favorites</button>
             </div>
         </div>
+        <!-- Size Guide Banner -->
+<div class="my-6 p-4 bg-zinc-900 border border-isla-gold/30 rounded-xl text-center">
+    <h3 class="text-lg font-serif text-isla-gold mb-2">Available Bottle Sizes (3ml - 30ml)</h3>
+    <img src="sizes.jpg" alt="Isla Aromas Size Guide" class="w-full max-w-lg mx-auto rounded-lg border border-zinc-800">
+</div>
 
         <!-- Decants Grid -->
         <div id="decant-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -423,7 +428,7 @@
             renderDecants(decants);
         });
 
-        // Render decants to grid with size selector
+        // Render decants to grid with size selectorf
         function renderDecants(items) {
             const grid = document.getElementById('decant-grid');
             grid.innerHTML = '';
